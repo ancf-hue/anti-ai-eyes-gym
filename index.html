@@ -10,65 +10,26 @@
     :root{--g:#00FF6A;--bg:#050505;--ui:#0A0A0A}
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     body{background:#000;min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:system-ui;color:var(--g);overflow:hidden;touch-action:none;user-select:none}
-    
-    /* === ЭКРАН 9:16 === */
     .screen{position:relative;width:100vw;height:100vh;max-width:450px;max-height:800px;aspect-ratio:9/16;background:var(--bg);overflow:hidden;margin:auto;display:none;flex-direction:column}
     .screen.active{display:flex}
-    
-    /* === ЛОГОТИП (только стр.2 и 3) === */
     .logo{text-align:center;padding:16px 0;border-bottom:1px solid #1A1A1A;z-index:50;position:relative}
     .logo img{width:56px;height:56px;opacity:0.9}
-    
-    /* === СТРЕЛКА НАЗАД (левый верхний угол стр.3) === */
-    .back-arrow {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      width: 40px;
-      height: 40px;
-      background: rgba(10,10,10,0.9);
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 100;
-      border: 1px solid rgba(0,255,106,0.3);
-      backdrop-filter: blur(4px);
-      transition: 0.1s ease;
-      color: var(--g);
-      text-decoration: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    .back-arrow:active {
-      transform: scale(0.92);
-      background: #1A1A1A;
-    }
-    
-    /* === СПЛЭШ (стр.1) — без логотипа === */
+    .back-arrow{position:absolute;top:16px;left:16px;width:40px;height:40px;background:rgba(10,10,10,0.9);border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;cursor:pointer;z-index:100;border:1px solid rgba(0,255,106,0.3);backdrop-filter:blur(4px);transition:0.1s ease;color:var(--g);text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+    .back-arrow:active{transform:scale(0.92);background:#1A1A1A}
     #splash{background:#000}
     .layers{position:absolute;top:0;left:0;width:100%;height:100%}
     .layers img,.layers video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
     .sound-btn{position:absolute;top:18px;left:18px;z-index:30;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);border-radius:60px;border:1px solid rgba(255,255,255,0.4);padding:12px 26px;cursor:pointer;display:flex;align-items:center;gap:12px;font-weight:bold;font-size:1.4rem;color:var(--g);transition:0.1s ease}
     .sound-btn:active{transform:scale(0.96)}
-    
-    /* === ИНСТРУКЦИЯ (стр.2) === */
-    #howto .content{flex:1;padding:24px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:18px;
-      /* 🔹 СКРЫВАЕМ СКРОЛЛБАР */
-      scrollbar-width:none;-ms-overflow-style:none}
+    #howto .content{flex:1;padding:24px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:18px;scrollbar-width:none;-ms-overflow-style:none}
     #howto .content::-webkit-scrollbar{display:none;width:0;height:0}
     #howto h1{font-size:1.3rem;text-align:center;margin-bottom:8px}
-    .desc{font-size:0.95rem;line-height:1.6;color:#AAA; margin-bottom:4px}
-    /* Убрали строку "Без рекламы, без интернета, без сбора данных" — класс .desc оставили пустым контентом */
+    .desc{font-size:0.95rem;line-height:1.6;color:#AAA;margin-bottom:4px}
     #howto .step{background:var(--ui);border-radius:12px;padding:14px;border-left:3px solid var(--g)}
     #howto .step b{color:var(--g);display:block;margin-bottom:4px}
     #howto .btn{background:var(--g);color:#000;border:none;border-radius:12px;padding:16px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:0.05s;margin-top:auto}
     #howto .btn:active{transform:scale(0.98)}
     #howto .footer{text-align:center;font-size:0.7rem;color:#555;padding:12px;border-top:1px solid #1A1A1A}
-    
-    /* === СЕКЦИЯ ПОДДЕРЖКИ (на стр.2) === */
     #support{background:var(--ui);border-top:1px solid #1A1A1A;padding:16px 20px 24px;display:none;flex-direction:column;gap:12px;animation:slideUp 0.3s ease}
     #support.show{display:flex}
     @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -83,8 +44,6 @@
     .support-note{font-size:0.7rem;color:#666;text-align:center}
     .back-btn{background:#222;color:var(--g);border:1px solid var(--g);border-radius:10px;padding:10px;font-size:0.9rem;cursor:pointer;margin-top:4px}
     .back-btn:active{transform:scale(0.98)}
-    
-    /* === ПРИЛОЖЕНИЕ (стр.3) === */
     #app{background:var(--bg)}
     #stage{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000}
     canvas{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;transition:opacity 0.4s;pointer-events:none}
@@ -94,7 +53,7 @@
     .eye{position:relative;width:18vmin;max-width:90px;aspect-ratio:2/1;background:#E8F0EE;border-radius:50%;overflow:hidden;box-shadow:0 0 14px rgba(0,255,106,0.15)}
     .iris{width:46%;height:46%;background:radial-gradient(circle at 32% 32%, #00C9A7, #008866);border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:transform 0.4s cubic-bezier(0.3,0,0.2,1)}
     .pupil{width:36%;height:36%;background:#000;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:transform 0.3s ease}
-    .lid{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--bg);transform-origin:top;transform:scaleY(0);transition:transform 0.08s;pointer-events:none}
+    .lid{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--bg);transform-origin:top;transform:scaleY(0);transition:transform 0.15s ease;pointer-events:none}
     .eye.blink .lid{transform:scaleY(1)}
     #text-box{position:absolute;bottom:14vh;left:0;right:0;text-align:center;color:var(--g);font-size:0.9rem;font-weight:500;line-height:1.4;opacity:0;transition:opacity 0.3s;padding:0 24px;pointer-events:none;z-index:5;text-shadow:0 0 8px rgba(0,255,106,0.3);background:rgba(0,0,0,0.8);border-radius:40px;width:fit-content;margin:0 auto;bottom:10vh}
     #text-box.show{opacity:1}
@@ -111,13 +70,12 @@
     .phase-dot.completed{background:#00AA55;color:#fff}
     .lesson-title{position:absolute;top:10px;left:0;right:0;text-align:center;font-size:0.7rem;color:#00AA55;z-index:10;background:rgba(0,0,0,0.5);padding:5px;border-radius:20px;width:fit-content;margin:0 auto;pointer-events:none}
     .sound-toggle{position:absolute;top:10px;right:10px;z-index:20;background:rgba(0,0,0,0.6);border-radius:30px;padding:5px 10px;font-size:0.7rem;cursor:pointer;color:var(--g);border:1px solid var(--g)}
-    
     @media(max-width:480px){.sound-btn{padding:8px 20px}.sound-btn .ico{font-size:1.6rem}.sound-btn .txt{font-size:1.1rem}}
   </style>
 </head>
 <body>
 
-  <!-- ========== СТРАНИЦА 1: СПЛЭШ (без логотипа) ========== -->
+  <!-- СТРАНИЦА 1: СПЛЭШ -->
   <div id="splash" class="screen active">
     <div class="layers">
       <img id="photo" src="frame.jpg" style="z-index:2">
@@ -126,26 +84,18 @@
     <button id="soundBtn" class="sound-btn"><span class="ico">🔇</span><span class="txt">Вкл звук</span></button>
   </div>
 
-  <!-- ========== СТРАНИЦА 2: ИНСТРУКЦИЯ + ПОДДЕРЖКА (убрана строка "Без рекламы...") ========== -->
+  <!-- СТРАНИЦА 2: ИНСТРУКЦИЯ + ПОДДЕРЖКА -->
   <div id="howto" class="screen">
     <div class="logo"><img src="favicon.ico" alt="logo"></div>
     <div class="content">
       <h1>👁️ Анти-ИИ Зарядка для глаз</h1>
-      <!-- Строка "Без рекламы, без интернета, без сбора данных" УДАЛЕНА -->
-      <!-- <div class="desc">Бесплатное офлайн-приложение для здоровья глаз. Без рекламы, без интернета, без сбора данных.</div> -->
-      
       <div class="step"><b>1️⃣ Нажмите «Старт»</b>Приложение проведёт вас через 5 уроков по 3–4 упражнения.</div>
       <div class="step"><b>2️⃣ Следуйте инструкциям</b>Голосовые подсказки и анимация покажут, что делать. Глаза будут двигаться за точкой, моргать, рисовать фигуры.</div>
       <div class="step"><b>3️⃣ Делайте перерывы</b>Между упражнениями — короткие паузы для расслабления. Не пропускайте их.</div>
       <div class="step"><b>4️⃣ Регулярность — ключ</b>Занимайтесь 1–2 раза в день. Результат заметен через 2–3 недели.</div>
-      
-      <!-- 🔹 КНОПКА ПОДДЕРЖКИ -->
       <button class="btn" id="btnSupport" style="background:#222;color:var(--g);border:1px solid var(--g);margin-top:8px">🤝 Поддержать проект</button>
-      
       <button class="btn" id="btnStartApp" style="margin-top:8px">▶ Начать зарядку</button>
     </div>
-    
-    <!-- 🔹 СЕКЦИЯ ПОДДЕРЖКИ -->
     <div id="support">
       <div class="support-title"><span class="heart">💙</span> ПОДДЕРЖАТЬ ПРОЕКТ</div>
       <div class="support-text">Приложение бесплатное. Было и останется.<br><br>Если проект помог вам или вашим близким — можете поддержать разработку добровольным переводом.</div>
@@ -156,15 +106,12 @@
       <div class="support-note">✅ Деньги придут мгновенно. Без комиссии. Безопасно.<br><br>❤️ Спасибо за поддержку!</div>
       <button class="back-btn" id="btnBack">← Назад</button>
     </div>
-    
     <div class="footer">v1.0 • Офлайн • Бесплатно</div>
   </div>
 
-  <!-- ========== СТРАНИЦА 3: ПРИЛОЖЕНИЕ (с левой стрелкой назад) ========== -->
+  <!-- СТРАНИЦА 3: ПРИЛОЖЕНИЕ -->
   <div id="app" class="screen">
-    <!-- Стрелка назад в левом верхнем углу (3 страница -> 2 страница) -->
     <div id="backFromApp" class="back-arrow" title="Назад к инструкции">←</div>
-    
     <div class="logo"><img src="favicon.ico" alt="logo"></div>
     <div id="stage">
       <div class="sound-toggle" id="soundToggle">🔊 Звук вкл</div>
@@ -189,197 +136,104 @@
 
 <script>
 (function(){
-  // ========== НАВИГАЦИЯ ==========
   function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
   
-  // ========== СПЛЭШ: ИСПРАВЛЕННЫЙ ЗВУК ==========
   const photo=document.getElementById('photo'),video=document.getElementById('video'),btn=document.getElementById('soundBtn');
   const ico=btn.querySelector('.ico'),txt=btn.querySelector('.txt');
   let soundOn=false,videoStarted=false,userUnlocked=false;
-  
-  // 🔹 Инициализация: видео всегда начинает с mute=true (требование браузеров)
   video.muted=true;
+  function updBtn(){if(soundOn){ico.innerText='🔊';txt.innerText='Звук вкл'}else{ico.innerText='🔇';txt.innerText='Вкл звук'}}
+  btn.onclick=async()=>{if(!userUnlocked){try{await video.play();video.pause();userUnlocked=true}catch(e){}}if(soundOn){video.muted=true;soundOn=false}else{video.muted=false;soundOn=true;if(videoStarted&&video.paused)video.play().catch(()=>{})}updBtn()};
+  function switchToVideo(){if(videoStarted)return;videoStarted=true;video.style.zIndex='2';photo.style.zIndex='1';if(soundOn&&userUnlocked){video.muted=false;video.play().catch(()=>{video.muted=true})}else{video.play().catch(()=>{})}setTimeout(()=>{if(video&&!video.ended)video.pause();setTimeout(()=>showScreen('howto'),500)},3000)}
+  if(photo.complete&&photo.naturalWidth)setTimeout(switchToVideo,2000);else{photo.onload=()=>setTimeout(switchToVideo,2000);setTimeout(()=>{if(!videoStarted)switchToVideo()},2500)}updBtn();
   
-  function updBtn(){
-    if(soundOn){ico.innerText='🔊';txt.innerText='Звук вкл'}
-    else{ico.innerText='🔇';txt.innerText='Вкл звук'}
-  }
+  document.getElementById('btnStartApp').onclick=()=>{const s=document.getElementById('support');if(s.classList.contains('show')){s.classList.remove('show');document.querySelector('#howto .content').style.display='flex';document.querySelector('#howto .footer').style.display='block'}showScreen('app')};
   
-  // 🔹 Обработчик кнопки: разблокировка аудио + переключение mute
-  btn.onclick=async()=>{
-    // Первое взаимодействие — разблокируем аудио-контекст
-    if(!userUnlocked){
-      try{
-        await video.play();
-        video.pause();
-        userUnlocked=true;
-      }catch(e){}
-    }
-    // Переключаем звук
-    if(soundOn){video.muted=true;soundOn=false}
-    else{video.muted=false;soundOn=true;if(videoStarted&&video.paused)video.play().catch(()=>{})}
-    updBtn();
-  };
-  
-  // 🔹 Переключение фото → видео через 2 секунды
-  function switchToVideo(){
-    if(videoStarted)return;
-    videoStarted=true;
-    video.style.zIndex='2';
-    photo.style.zIndex='1';
-    
-    // 🔹 Запуск видео с учётом состояния звука
-    if(soundOn && userUnlocked){
-      video.muted=false;
-      video.play().catch(()=>{video.muted=true});
-    }else{
-      video.play().catch(()=>{});
-    }
-    
-    // Пауза через 3 секунды + переход к инструкции
-    setTimeout(()=>{
-      if(video&&!video.ended)video.pause();
-      setTimeout(()=>showScreen('howto'),500);
-    },3000);
-  }
-  
-  // Запуск таймера переключения
-  if(photo.complete&&photo.naturalWidth)setTimeout(switchToVideo,2000);
-  else{photo.onload=()=>setTimeout(switchToVideo,2000);setTimeout(()=>{if(!videoStarted)switchToVideo()},2500)}
-  updBtn();
-  
-  // ========== ПЕРЕХОДЫ ==========
-  // С 2-й на 3-ю (старт зарядки)
-  document.getElementById('btnStartApp').onclick=()=>{
-    // Перед переходом на приложение, если секция поддержки была открыта — закрываем на всякий случай
-    const supportDiv = document.getElementById('support');
-    if(supportDiv.classList.contains('show')){
-      supportDiv.classList.remove('show');
-      document.querySelector('#howto .content').style.display = 'flex';
-      document.querySelector('#howto .footer').style.display = 'block';
-    }
-    showScreen('app');
-  };
-  
-  // ========== ПОДДЕРЖКА (на стр.2) ==========
   const btnSupport=document.getElementById('btnSupport'),btnBack=document.getElementById('btnBack'),supportSection=document.getElementById('support'),copyBtn=document.getElementById('copyBtn'),phoneNum=document.getElementById('phoneNum');
-  btnSupport.onclick=()=>{
-    supportSection.classList.add('show');
-    document.querySelector('#howto .content').style.display='none';
-    document.querySelector('#howto .footer').style.display='none';
-  };
-  btnBack.onclick=()=>{
-    supportSection.classList.remove('show');
-    document.querySelector('#howto .content').style.display='flex';
-    document.querySelector('#howto .footer').style.display='block';
-  };
-  copyBtn.onclick=()=>{
-    navigator.clipboard.writeText(phoneNum.textContent).then(()=>{
-      copyBtn.textContent='✅ Скопировано';
-      setTimeout(()=>copyBtn.textContent='📋 Копировать',2000);
-    });
-  };
+  btnSupport.onclick=()=>{supportSection.classList.add('show');document.querySelector('#howto .content').style.display='none';document.querySelector('#howto .footer').style.display='none'};
+  btnBack.onclick=()=>{supportSection.classList.remove('show');document.querySelector('#howto .content').style.display='flex';document.querySelector('#howto .footer').style.display='block'};
+  copyBtn.onclick=()=>{navigator.clipboard.writeText(phoneNum.textContent).then(()=>{copyBtn.textContent='✅ Скопировано';setTimeout(()=>copyBtn.textContent='📋 Копировать',2000)})};
   
-  // ========== НОВОЕ: стрелка назад со страницы 3 на страницу 2 ==========
-  const backArrowFromApp = document.getElementById('backFromApp');
-  if(backArrowFromApp){
-    backArrowFromApp.addEventListener('click', function(){
-      // Останавливаем все процессы зарядки, аудио, таймеры, чтобы вернуться в чистое состояние
-      if(window.appReset && typeof window.appReset === 'function') {
-        window.appReset(); // вызываем глобальную функцию сброса из приложения
-      }
-      // Сброс интерфейса приложения визуально (доп. защита)
-      const btnPlayEl = document.getElementById('btnPlay');
-      const timerEl = document.getElementById('timer');
-      if(btnPlayEl) btnPlayEl.textContent = '▶ Старт';
-      if(timerEl) timerEl.textContent = '~20 мин';
-      // Возвращаемся на экран howto
-      showScreen('howto');
-    });
+  const backArrowFromApp=document.getElementById('backFromApp');
+  if(backArrowFromApp){backArrowFromApp.addEventListener('click',function(){if(window.appReset&&typeof window.appReset==='function')window.appReset();const btnPlayEl=document.getElementById('btnPlay'),timerEl=document.getElementById('timer');if(btnPlayEl)btnPlayEl.textContent='▶ Старт';if(timerEl)timerEl.textContent='~20 мин';showScreen('howto')})}
+
+  const canvas=document.getElementById('c'),ctx=canvas.getContext('2d'),eyesEl=document.getElementById('eyes'),eyeL=document.getElementById('eyeL'),eyeR=document.getElementById('eyeR'),textBox=document.getElementById('text-box'),timerEl=document.getElementById('timer'),lessonTitle=document.getElementById('lessonTitle'),btnPlay=document.getElementById('btnPlay'),btnReset=document.getElementById('btnReset'),appEl=document.getElementById('app'),phaseDots=document.getElementById('phaseDots'),soundToggle=document.getElementById('soundToggle');
+  let running=false,isPaused=false,startTime=0,currentLesson=-1,currentExerciseIndex=0,timeouts=[],intervals=[],blinkInt=null,lookT=null,geomInterval=null,ballP={mode:1,t:0,lastModeChange:0,maxMode:1},palmingInterval=null,blinkSeqInterval=null,animId=null,soundEnabled=true,currentAudio=null,isPlayingAudio=false,currentExerciseStartTime=0,timeLeft=0,totalLessonsCompleted=0;
+
+  // 🔹 СБРОС ПОЛОЖЕНИЯ ЗРАЧКОВ В ЦЕНТР
+  function resetEyesPosition() {
+    const center = 'translate(-50%, -50%)';
+    const irisL = eyeL.querySelector('.iris');
+    const irisR = eyeR.querySelector('.iris');
+    if (irisL) irisL.style.transform = center;
+    if (irisR) irisR.style.transform = center;
   }
 
-  // ========== ПРИЛОЖЕНИЕ: ПЕРЕМЕННЫЕ (вся логика зарядки) ==========
-  const canvas=document.getElementById('c'),ctx=canvas.getContext('2d'),eyesEl=document.getElementById('eyes'),eyeL=document.getElementById('eyeL'),eyeR=document.getElementById('eyeR'),textBox=document.getElementById('text-box'),timerEl=document.getElementById('timer'),lessonTitle=document.getElementById('lessonTitle'),btnPlay=document.getElementById('btnPlay'),btnReset=document.getElementById('btnReset'),appEl=document.getElementById('app'),phaseDots=document.getElementById('phaseDots'),soundToggle=document.getElementById('soundToggle');
-  let running=false,isPaused=false,startTime=0,currentLesson=-1,currentExerciseIndex=0,timeouts=[],intervals=[],blinkInt=null,lookT=null,geomInterval=null,ballP={fx:1.2,fy:1.6,off:0},palmingInterval=null,animId=null,soundEnabled=true,currentAudio=null,isPlayingAudio=false,currentExerciseStartTime=0,timeLeft=0,totalLessonsCompleted=0;
+  window.appReset=function(){if(running||isPaused){running=false;isPaused=false;stopAllAudio();clearAll();if(animId)cancelAnimationFrame(animId);eyesEl.classList.remove('show');canvas.classList.remove('show');if(timerEl)timerEl.textContent='~20 мин';if(btnPlay){btnPlay.textContent='▶ Старт';btnPlay.classList.add('primary')}currentLesson=-1;currentExerciseIndex=0;totalLessonsCompleted=0;if(window.updateLessonDotsGlobal)window.updateLessonDotsGlobal(-1,0);resize();if(ctx){ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height)}}else{if(btnPlay)btnPlay.textContent='▶ Старт';if(timerEl)timerEl.textContent='~20 мин';currentLesson=-1;currentExerciseIndex=0;totalLessonsCompleted=0;if(window.updateLessonDotsGlobal)window.updateLessonDotsGlobal(-1,0);resize();if(ctx){ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height)}}};
 
-  // Глобальный сброс для навигации
-  window.appReset = function() {
-    if(running || isPaused) {
-      running = false;
-      isPaused = false;
-      stopAllAudio();
-      clearAll();
-      if(animId) cancelAnimationFrame(animId);
-      eyesEl.classList.remove('show');
-      canvas.classList.remove('show');
-      if(timerEl) timerEl.textContent = '~20 мин';
-      if(btnPlay) {
-        btnPlay.textContent = '▶ Старт';
-        btnPlay.classList.add('primary');
-      }
-      // Сброс индексов уроков
-      currentLesson = -1;
-      currentExerciseIndex = 0;
-      totalLessonsCompleted = 0;
-      if(window.updateLessonDotsGlobal) window.updateLessonDotsGlobal(-1, 0);
-      const w = canvas.width/(window.devicePixelRatio||1);
-      const h = canvas.height/(window.devicePixelRatio||1);
-      if(ctx){ ctx.fillStyle='#000'; ctx.fillRect(0,0,w,h); }
-    } else {
-      // если не активно, просто сбросить визуальное состояние
-      if(btnPlay) btnPlay.textContent = '▶ Старт';
-      if(timerEl) timerEl.textContent = '~20 мин';
-      currentLesson = -1;
-      currentExerciseIndex = 0;
-      totalLessonsCompleted = 0;
-      if(window.updateLessonDotsGlobal) window.updateLessonDotsGlobal(-1, 0);
-      const w = canvas.width/(window.devicePixelRatio||1);
-      const h = canvas.height/(window.devicePixelRatio||1);
-      if(ctx){ ctx.fillStyle='#000'; ctx.fillRect(0,0,w,h); }
-    }
-  };
-
-  // ========== АУДИО-СИСТЕМА ==========
   async function playSmart(file,maxTime=null){return new Promise((resolve)=>{if(!soundEnabled){resolve();return}if(isPlayingAudio){resolve();return}const audio=new Audio(`audio/${file}`);audio.preload='metadata';const timeout=setTimeout(()=>resolve(),3000);audio.onloadedmetadata=()=>{clearTimeout(timeout);const duration=audio.duration;if(maxTime!==null&&duration>maxTime){resolve();return}isPlayingAudio=true;currentAudio=audio;audio.volume=1;audio.onended=()=>{isPlayingAudio=false;currentAudio=null;resolve()};audio.onerror=()=>{isPlayingAudio=false;currentAudio=null;resolve()};audio.play().catch(()=>{isPlayingAudio=false;currentAudio=null;resolve()})};audio.onerror=()=>{clearTimeout(timeout);resolve()}})}
   function stopAllAudio(){if(currentAudio){currentAudio.pause();currentAudio=null}isPlayingAudio=false;timeouts.forEach(clearTimeout);timeouts=[]}
   function toggleSound(){soundEnabled=!soundEnabled;soundToggle.textContent=soundEnabled?"🔊 Звук вкл":"🔇 Звук выкл";if(!soundEnabled)stopAllAudio()}
   soundToggle.onclick=toggleSound;
-  function unlockAudio(){if(!soundEnabled)return;const silent=new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA');silent.volume=0;silent.play().then(()=>silent.pause()).catch(()=>{});document.removeEventListener('click',unlockAudio);document.removeEventListener('touchstart',unlockAudio)}
+  function unlockAudio(){if(!soundEnabled)return;const silent=new Audio('audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA');silent.volume=0;silent.play().then(()=>silent.pause()).catch(()=>{});document.removeEventListener('click',unlockAudio);document.removeEventListener('touchstart',unlockAudio)}
   document.addEventListener('click',unlockAudio,{once:true});document.addEventListener('touchstart',unlockAudio,{once:true});
 
-  // ========== УРОКИ ==========
   const LESSONS=[{name:'🌊 Урок 1: Расслабление',intro:'01_lesson1_intro.mp3',outro:'01_lesson_outro.mp3',exercises:[{name:'Шторки',type:'blink',duration:30,start:'01_1_blink_start.mp3',proc:'01_1_blink_process.mp3',end:'01_1_blink_end.mp3'},{name:'Точка',type:'ball',duration:30,start:'01_2_ball_start.mp3',proc:'01_2_ball_process.mp3',end:'01_2_ball_end.mp3'},{name:'Пауза',type:'rest',duration:15,start:'01_3_rest_start.mp3',proc:'01_3_rest_process.mp3',end:'01_3_rest_end.mp3'}]},{name:'🎨 Урок 2: Координация',intro:'02_lesson2_intro.mp3',outro:'02_lesson_outro.mp3',exercises:[{name:'Геометрия',type:'geometry',duration:35,start:'02_1_geometry_start.mp3',proc:'02_1_geometry_process.mp3',end:'02_1_geometry_end.mp3'},{name:'Точка',type:'ball',duration:30,start:'02_2_ball_start.mp3',proc:'02_2_ball_process.mp3',end:'02_2_ball_end.mp3'},{name:'Пауза',type:'rest',duration:15,start:'02_3_rest_start.mp3',proc:'02_3_rest_process.mp3',end:'02_3_rest_end.mp3'}]},{name:'💪 Урок 3: Укрепление',intro:'03_lesson3_intro.mp3',outro:'03_lesson_outro.mp3',exercises:[{name:'Жмурки',type:'squeeze',duration:30,start:'03_1_squeeze_start.mp3',proc:'03_1_squeeze_process.mp3',end:'03_1_squeeze_end.mp3'},{name:'Точка',type:'ball',duration:30,start:'03_2_ball_start.mp3',proc:'03_2_ball_process.mp3',end:'03_2_ball_end.mp3'},{name:'Пауза',type:'rest',duration:15,start:'03_3_rest_start.mp3',proc:'03_3_rest_process.mp3',end:'03_3_rest_end.mp3'}]},{name:'🧘 Урок 4: Глубокий отдых',intro:'04_lesson4_intro.mp3',outro:'04_lesson_outro.mp3',exercises:[{name:'Пальминг',type:'palming',duration:35,start:'04_1_palming_start.mp3',proc:'04_1_palming_process.mp3',end:'04_1_palming_end.mp3'},{name:'Шторки',type:'blink',duration:25,start:'04_2_blink_start.mp3',proc:'04_2_blink_process.mp3',end:'04_2_blink_end.mp3'},{name:'Пауза',type:'rest',duration:10,start:'04_3_rest_start.mp3',proc:'04_3_rest_process.mp3',end:'04_3_rest_end.mp3'}]},{name:'⭐ Урок 5: Финальный',intro:'05_lesson5_intro.mp3',outro:'05_lesson_outro.mp3',exercises:[{name:'Точка',type:'ball',duration:35,start:'05_1_ball_start.mp3',proc:'05_1_ball_process.mp3',end:'05_1_ball_end.mp3'},{name:'Геометрия',type:'geometry',duration:30,start:'05_2_geometry_start.mp3',proc:'05_2_geometry_process.mp3',end:'05_2_geometry_end.mp3'}]}];
 
-  // ========== ИНТЕРФЕЙС ==========
   function buildPhaseDots(){phaseDots.innerHTML='';LESSONS.forEach((_,i)=>{const dot=document.createElement('div');dot.className='phase-dot';dot.id=`lessonDot${i}`;dot.textContent=`${i+1}`;phaseDots.appendChild(dot)})}buildPhaseDots();
   function updateLessonDots(lesson,completed){for(let i=0;i<LESSONS.length;i++){const dot=document.getElementById(`lessonDot${i}`);if(!dot)continue;if(i<completed)dot.className='phase-dot completed';else if(i===lesson)dot.className='phase-dot active';else dot.className='phase-dot'}if(lesson>=0&&lesson<LESSONS.length)lessonTitle.textContent=`${LESSONS[lesson].name} (${lesson+1}/5)`}
-  window.updateLessonDotsGlobal = updateLessonDots;
+  window.updateLessonDotsGlobal=updateLessonDots;
   function showText(txt,duration=3000){textBox.textContent=txt;textBox.classList.add('show');const tid=setTimeout(()=>textBox.classList.remove('show'),duration);timeouts.push(tid)}
-  function clearAll(){stopAllAudio();timeouts.forEach(clearTimeout);timeouts=[];intervals.forEach(clearInterval);intervals=[];if(blinkInt){clearInterval(blinkInt);blinkInt=null}if(lookT){clearTimeout(lookT);lookT=null}if(geomInterval){clearTimeout(geomInterval);geomInterval=null}if(palmingInterval){clearInterval(palmingInterval);palmingInterval=null}}
-  function resize(){const dpr=window.devicePixelRatio||1;canvas.width=appEl.clientWidth*dpr;canvas.height=appEl.clientHeight*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}window.addEventListener('resize',resize);resize();
-
-  // ========== УПРАЖНЕНИЯ (сокращённо, но все ключевые) ==========
+  function clearAll(){stopAllAudio();timeouts.forEach(clearTimeout);timeouts=[];intervals.forEach(clearInterval);intervals=[];if(blinkInt){clearInterval(blinkInt);blinkInt=null}if(lookT){clearTimeout(lookT);lookT=null}if(geomInterval){clearTimeout(geomInterval);geomInterval=null}if(palmingInterval){clearInterval(palmingInterval);palmingInterval=null}if(blinkSeqInterval){clearInterval(blinkSeqInterval);blinkSeqInterval=null}}
+  function resize(){canvas.width=canvas.clientWidth;canvas.height=canvas.clientHeight}
+  window.addEventListener('resize', resize);
+  function getMaxModesForLesson(idx){return [1,5,7,8,10][idx]||10}
+  
   function setupBlink(){eyesEl.classList.add('show');canvas.classList.remove('show');blinkInt=setInterval(()=>{if(!running||isPaused)return;eyeL.classList.add('blink');eyeR.classList.add('blink');setTimeout(()=>{eyeL.classList.remove('blink');eyeR.classList.remove('blink')},150)},1500);intervals.push(blinkInt);function look(){if(!running||isPaused)return;const dirs=[[-12,0],[12,0],[0,-10],[0,10],[-8,-8],[8,-8],[-6,6],[6,6],[0,0]];const[x,y]=dirs[Math.floor(Math.random()*dirs.length)];const irisStyle=`translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;const irisL=eyeL.querySelector('.iris'),irisR=eyeR.querySelector('.iris');if(irisL)irisL.style.transform=irisStyle;if(irisR)irisR.style.transform=irisStyle;lookT=setTimeout(look,2000+Math.random()*1000);if(lookT)timeouts.push(lookT)}look()}
-  function setupBall(){eyesEl.classList.remove('show');canvas.classList.add('show');ballP={fx:1.0+Math.random()*2.5,fy:1.0+Math.random()*2.5,off:Math.random()*Math.PI*2}}
-  function setupGeometry(){eyesEl.classList.add('show');canvas.classList.remove('show');let shapes=['круг','квадрат','восьмёрку'],shapeIndex=0,points=[],currentPoint=0;function getCirclePoints(r,s){let p=[];for(let i=0;i<=s;i++)p.push({x:Math.cos((i/s)*Math.PI*2)*r,y:Math.sin((i/s)*Math.PI*2)*r});return p}function getSquarePoints(s,st){let p=[],k=Math.floor(st/4);for(let i=0;i<=k;i++)p.push({x:-s+(i/k)*s*2,y:-s});for(let i=0;i<=k;i++)p.push({x:s,y:-s+(i/k)*s*2});for(let i=0;i<=k;i++)p.push({x:s-(i/k)*s*2,y:s});for(let i=0;i<=k;i++)p.push({x:-s,y:s-(i/k)*s*2});return p}function getEightPoints(r,s){let p=[];for(let i=0;i<=s;i++){let t=(i/s)*Math.PI*2;p.push({x:Math.sin(t)*r,y:Math.sin(2*t)*r*0.6})}return p}function update(){if(!running||isPaused)return;if(currentPoint>=points.length){shapeIndex=(shapeIndex+1)%shapes.length;currentPoint=0;if(shapes[shapeIndex]==='круг')points=getCirclePoints(60,36);else if(shapes[shapeIndex]==='квадрат')points=getSquarePoints(60,40);else points=getEightPoints(60,48)}if(points.length>0&&currentPoint<points.length){const p=points[currentPoint];const irisStyle=`translate(calc(-50% + ${p.x/2}px), calc(-50% + ${p.y/2}px))`;const irisL=eyeL.querySelector('.iris'),irisR=eyeR.querySelector('.iris');if(irisL)irisL.style.transform=irisStyle;if(irisR)irisR.style.transform=irisStyle;currentPoint++}geomInterval=setTimeout(update,80);if(geomInterval)timeouts.push(geomInterval)}points=getCirclePoints(60,36);update()}
-  function setupSqueeze(){eyesEl.classList.add('show');canvas.classList.remove('show');let count=0,active=false;function doSqueeze(){if(!running||isPaused||count>=5){if(palmingInterval)clearInterval(palmingInterval);return}if(!active){eyeL.classList.add('blink');eyeR.classList.add('blink');active=true}else{eyeL.classList.remove('blink');eyeR.classList.remove('blink');active=false;count++}}doSqueeze();palmingInterval=setInterval(doSqueeze,5000);intervals.push(palmingInterval)}
-  function setupPalming(){eyesEl.classList.add('show');canvas.classList.remove('show');const overlay=document.createElement('div');Object.assign(overlay.style,{position:'absolute',top:'0',left:'0',width:'100%',height:'100%',background:'#000',zIndex:'100',opacity:'0',transition:'opacity 0.5s',pointerEvents:'none'});document.getElementById('stage').appendChild(overlay);setTimeout(()=>overlay.style.opacity='0.95',100);setTimeout(()=>overlay.remove(),timeLeft*1000-500);timeouts.push(setTimeout(()=>{},timeLeft*1000))}
-  function setupRest(){eyesEl.classList.add('show');canvas.classList.remove('show')}
-  function drawBall(elapsed){const w=canvas.width/(window.devicePixelRatio||1),h=canvas.height/(window.devicePixelRatio||1);ctx.fillStyle='rgba(0,0,0,0.15)';ctx.fillRect(0,0,w,h);const t=elapsed*0.5;let x=Math.sin(t*ballP.fx+ballP.off)*w*0.38,y=Math.cos(t*ballP.fy+ballP.off)*h*0.38;const cx=w/2+x,cy=h/2+y;ctx.shadowBlur=28;ctx.shadowColor='#00FF6A';ctx.fillStyle='#00FF6A';ctx.beginPath();ctx.arc(cx,cy,19,0,Math.PI*2);ctx.fill();ctx.shadowBlur=10;ctx.fillStyle='#88FFAA';ctx.beginPath();ctx.arc(cx,cy,12,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#000';ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#FFF';ctx.beginPath();ctx.arc(cx-5,cy-5,2.5,0,Math.PI*2);ctx.fill()}
+  
+  function setupBall(){eyesEl.classList.remove('show');canvas.classList.add('show');resize();ballP={mode:1,t:0,lastModeChange:0,maxMode:getMaxModesForLesson(currentLesson)}}
+  function getCoord(time,m){const w=canvas.width*0.4,h=canvas.height*0.4,cx=canvas.width/2,cy=canvas.height/2;let x=0,y=0;switch(m){case 1:x=(w*Math.cos(time))/(1+Math.pow(Math.sin(time),2));y=(w*Math.sin(time)*Math.cos(time))/(1+Math.pow(Math.sin(time),2));break;case 2:x=0;y=Math.sin(time)*h;break;case 3:x=Math.sin(time)*w;y=0;break;case 4:{let p=time%4;if(p<1){x=-w+(2*w*p);y=-h}else if(p<2){x=w;y=-h+(2*h*(p-1))}else if(p<3){x=w-(2*w*(p-2));y=h}else{x=-w;y=h-(2*h*(p-3))}}break;case 5:x=Math.cos(time)*w;y=Math.sin(time)*w;break;case 6:x=Math.sin(time)*w;y=Math.sin(time)*h;break;case 7:x=Math.sin(time)*w;y=-Math.sin(time)*h;break;case 8:x=Math.sin(time*2)*w;y=Math.cos(time)*h;break;case 9:x=Math.sin(time)*w;y=Math.asin(Math.sin(time*3))*h;break;case 10:x=Math.cos(time*0.5)*w;y=Math.sin(time*2)*h;break;}return{x:cx+x,y:cy+y}}
+  function drawBall(){ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);ballP.t+=0.03;if(ballP.t-ballP.lastModeChange>1.8){if(ballP.maxMode>1){let n;do{n=Math.floor(Math.random()*ballP.maxMode)+1}while(n===ballP.mode);ballP.mode=n;ballP.t=0}ballP.lastModeChange=ballP.t}const p=getCoord(ballP.t,ballP.mode);ctx.beginPath();ctx.arc(p.x,p.y,20,0,2*Math.PI);ctx.fillStyle='#0f0';ctx.shadowBlur=15;ctx.shadowColor='#0f0';ctx.fill();ctx.beginPath();ctx.arc(p.x,p.y,5,0,2*Math.PI);ctx.fillStyle='#000';ctx.shadowBlur=0;ctx.fill()}
+  
+  function setupGeometry(){eyesEl.classList.add('show');canvas.classList.remove('show');resize();let shapes=['круг','квадрат','восьмёрку'],si=0,pts=[],cp=0;function cpR(r,s){let p=[];for(let i=0;i<=s;i++)p.push({x:Math.cos((i/s)*Math.PI*2)*r,y:Math.sin((i/s)*Math.PI*2)*r});return p}function cpS(s,st){let p=[],k=Math.floor(st/4);for(let i=0;i<=k;i++)p.push({x:-s+(i/k)*s*2,y:-s});for(let i=0;i<=k;i++)p.push({x:s,y:-s+(i/k)*s*2});for(let i=0;i<=k;i++)p.push({x:s-(i/k)*s*2,y:s});for(let i=0;i<=k;i++)p.push({x:-s,y:s-(i/k)*s*2});return p}function cpE(r,s){let p=[];for(let i=0;i<=s;i++){let t=(i/s)*Math.PI*2;p.push({x:Math.sin(t)*r,y:Math.sin(2*t)*r*0.6})}return p}function up(){if(!running||isPaused)return;if(cp>=pts.length){si=(si+1)%shapes.length;cp=0;if(shapes[si]==='круг')pts=cpR(60,36);else if(shapes[si]==='квадрат')pts=cpS(60,40);else pts=cpE(60,48)}if(pts.length>0&&cp<pts.length){const p=pts[cp];const st=`translate(calc(-50% + ${p.x/2}px), calc(-50% + ${p.y/2}px))`;eyeL.querySelector('.iris').style.transform=st;eyeR.querySelector('.iris').style.transform=st;cp++}geomInterval=setTimeout(up,80);if(geomInterval)timeouts.push(geomInterval)}pts=cpR(60,36);up()}
+  
+  function setupSqueeze(){eyesEl.classList.add('show');canvas.classList.remove('show');resize();let c=0,a=false;function doS(){if(!running||isPaused||c>=5){if(palmingInterval)clearInterval(palmingInterval);return}if(!a){eyeL.classList.add('blink');eyeR.classList.add('blink');a=true}else{eyeL.classList.remove('blink');eyeR.classList.remove('blink');a=false;c++}}doS();palmingInterval=setInterval(doS,5000);intervals.push(palmingInterval)}
+  
+  // 🔹 ОТДЫХ + СБРОС ЗРАЧКОВ В ЦЕНТР
+  function setupRest(){
+    eyesEl.classList.add('show');canvas.classList.remove('show');
+    resetEyesPosition(); // 🔹 Всегда ставим зрачки по центру перед отдыхом
+    if(blinkSeqInterval)clearInterval(blinkSeqInterval);
+    blinkSeqInterval=setInterval(()=>{
+      if(!running||isPaused)return;
+      eyeL.classList.add('blink');
+      setTimeout(()=>{
+        if(!running||isPaused)return;
+        eyeR.classList.add('blink');
+        setTimeout(()=>{
+          if(!running||isPaused)return;
+          eyeL.classList.remove('blink');eyeR.classList.remove('blink');
+        },400);
+      },200);
+    },3000);
+  }
+  
+  function setupPalming(){eyesEl.classList.add('show');canvas.classList.remove('show');resize();resetEyesPosition();const ov=document.createElement('div');Object.assign(ov.style,{position:'absolute',top:'0',left:'0',width:'100%',height:'100%',background:'#000',zIndex:'100',opacity:'0',transition:'opacity 0.5s',pointerEvents:'none'});document.getElementById('stage').appendChild(ov);setTimeout(()=>ov.style.opacity='0.95',100);setTimeout(()=>ov.remove(),timeLeft*1000-500);timeouts.push(setTimeout(()=>{},timeLeft*1000))}
 
-  async function runExerciseTimer(exercise){return new Promise((resolve)=>{timeLeft=exercise.duration;const interval=setInterval(()=>{if(!running){clearInterval(interval);resolve();return}if(isPaused)return;timeLeft--;const m=Math.floor(timeLeft/60),s=timeLeft%60;timerEl.textContent=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;if(!isPlayingAudio&&timeLeft>5&&exercise.proc)playSmart(exercise.proc,timeLeft);if(timeLeft<=0){clearInterval(interval);resolve()}},1000);intervals.push(interval)})}
-  async function runExercise(exercise){showText(`🎯 ${exercise.name}`,3000);if(exercise.start)await playSmart(exercise.start,exercise.duration);if(exercise.type==='blink')setupBlink();else if(exercise.type==='ball')setupBall();else if(exercise.type==='geometry')setupGeometry();else if(exercise.type==='squeeze')setupSqueeze();else if(exercise.type==='palming')setupPalming();else if(exercise.type==='rest')setupRest();await runExerciseTimer(exercise);if(exercise.end)await playSmart(exercise.end,999);clearAll()}
-  async function runLesson(){const lesson=LESSONS[currentLesson];if(!lesson){await playSmart('complete_all.mp3');finish();return}if(lesson.intro)await playSmart(lesson.intro,null);for(let i=currentExerciseIndex;i<lesson.exercises.length;i++){currentExerciseIndex=i;await runExercise(lesson.exercises[i])}if(lesson.outro)await playSmart(lesson.outro,null);totalLessonsCompleted=currentLesson+1;updateLessonDots(-1,totalLessonsCompleted);currentLesson++;currentExerciseIndex=0;if(currentLesson<LESSONS.length)setTimeout(runLesson,4000);else finish()}
-  async function start(){if(running)return;textBox.classList.remove('show');running=true;isPaused=false;startTime=Date.now();if(currentLesson===-1){await playSmart('00_welcome.mp3',null);currentLesson=0;currentExerciseIndex=0;totalLessonsCompleted=0;updateLessonDots(0,0);setTimeout(runLesson,3000)}else runLesson();btnPlay.textContent='⏸ Пауза';btnPlay.classList.remove('primary');loop()}
+  async function runExerciseTimer(ex){return new Promise((res)=>{timeLeft=ex.duration;const iv=setInterval(()=>{if(!running){clearInterval(iv);res();return}if(isPaused)return;timeLeft--;const m=Math.floor(timeLeft/60),s=timeLeft%60;timerEl.textContent=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;if(!isPlayingAudio&&timeLeft>5&&ex.proc)playSmart(ex.proc,timeLeft);if(timeLeft<=0){clearInterval(iv);res()}},1000);intervals.push(iv)})}
+  async function runExercise(ex){showText(`🎯 ${ex.name}`,3000);currentExerciseStartTime=Date.now();if(ex.start)await playSmart(ex.start,ex.duration);if(ex.type==='blink')setupBlink();else if(ex.type==='ball')setupBall();else if(ex.type==='geometry')setupGeometry();else if(ex.type==='squeeze')setupSqueeze();else if(ex.type==='palming')setupPalming();else if(ex.type==='rest')setupRest();await runExerciseTimer(ex);if(ex.end)await playSmart(ex.end,999);clearAll()}
+  async function runLesson(){const l=LESSONS[currentLesson];if(!l){await playSmart('complete_all.mp3');finish();return}if(l.intro)await playSmart(l.intro,null);for(let i=currentExerciseIndex;i<l.exercises.length;i++){currentExerciseIndex=i;await runExercise(l.exercises[i])}if(l.outro)await playSmart(l.outro,null);totalLessonsCompleted=currentLesson+1;updateLessonDots(-1,totalLessonsCompleted);currentLesson++;currentExerciseIndex=0;if(currentLesson<LESSONS.length)setTimeout(runLesson,4000);else finish()}
+  
+  async function start(){if(running)return;textBox.classList.remove('show');running=true;isPaused=false;startTime=Date.now();resize();if(currentLesson===-1){await playSmart('00_welcome.mp3',null);currentLesson=0;currentExerciseIndex=0;totalLessonsCompleted=0;updateLessonDots(0,0);setTimeout(runLesson,3000)}else runLesson();btnPlay.textContent='⏸ Пауза';btnPlay.classList.remove('primary');loop()}
   function pause(){if(!running)return;isPaused=!isPaused;if(isPaused){if(currentAudio)currentAudio.pause();btnPlay.textContent='▶ Старт';btnPlay.classList.add('primary');showText('⏸ Пауза',2000)}else{if(currentAudio)currentAudio.play().catch(()=>{});btnPlay.textContent='⏸ Пауза';btnPlay.classList.remove('primary')}}
-  function finish(){running=false;isPaused=false;stopAllAudio();clearAll();if(animId)cancelAnimationFrame(animId);timerEl.textContent='✓ Готово!';eyesEl.classList.remove('show');canvas.classList.remove('show');btnPlay.textContent='▶ Старт';btnPlay.classList.add('primary');showText('🎉 Все уроки пройдены!',6000)}
-  function reset(){running=false;isPaused=false;stopAllAudio();currentLesson=-1;currentExerciseIndex=0;totalLessonsCompleted=0;clearAll();if(animId)cancelAnimationFrame(animId);eyesEl.classList.remove('show');canvas.classList.remove('show');timerEl.textContent='~20 мин';updateLessonDots(-1,0);const w=canvas.width/(window.devicePixelRatio||1),h=canvas.height/(window.devicePixelRatio||1);if(ctx){ctx.fillStyle='#000';ctx.fillRect(0,0,w,h)}btnPlay.textContent='▶ Старт';btnPlay.classList.add('primary');showText('Нажмите Старт',2000)}
-  function loop(){if(!running||isPaused){animId=requestAnimationFrame(loop);return}if(currentLesson>=0&&currentLesson<LESSONS.length){const ex=LESSONS[currentLesson].exercises[currentExerciseIndex];if(ex&&ex.type==='ball'){const elapsed=(Date.now()-startTime)/1000;drawBall(elapsed)}else if(ex&&ex.type!=='ball'){const w=canvas.width/(window.devicePixelRatio||1),h=canvas.height/(window.devicePixelRatio||1);ctx.fillStyle='#000';ctx.fillRect(0,0,w,h)}}animId=requestAnimationFrame(loop)}
+  function finish(){running=false;isPaused=false;stopAllAudio();clearAll();resetEyesPosition();if(animId)cancelAnimationFrame(animId);timerEl.textContent='✓ Готово!';eyesEl.classList.remove('show');canvas.classList.remove('show');btnPlay.textContent='▶ Старт';btnPlay.classList.add('primary');showText('🎉 Все уроки пройдены!',6000)}
+  function reset(){running=false;isPaused=false;stopAllAudio();currentLesson=-1;currentExerciseIndex=0;totalLessonsCompleted=0;clearAll();resetEyesPosition();if(animId)cancelAnimationFrame(animId);eyesEl.classList.remove('show');canvas.classList.remove('show');timerEl.textContent='~20 мин';updateLessonDots(-1,0);resize();if(ctx){ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height)}btnPlay.textContent='▶ Старт';btnPlay.classList.add('primary');showText('Нажмите Старт',2000)}
+  
+  function loop(){if(!running||isPaused){animId=requestAnimationFrame(loop);return}if(currentLesson>=0&&currentLesson<LESSONS.length){const ex=LESSONS[currentLesson].exercises[currentExerciseIndex];if(ex&&ex.type==='ball')drawBall();else if(ex&&ex.type!=='ball'&&canvas.classList.contains('show')){ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height)}}animId=requestAnimationFrame(loop)}
+  
   btnPlay.onclick=()=>isPaused?pause():(running?pause():start());
   btnReset.onclick=reset;
-  textBox.classList.add('show');
-  updateLessonDots(-1,0);
-  timerEl.textContent='~20 мин';
+  textBox.classList.add('show');updateLessonDots(-1,0);timerEl.textContent='~20 мин';setTimeout(resize,100);
 })();
 </script>
 </body>
