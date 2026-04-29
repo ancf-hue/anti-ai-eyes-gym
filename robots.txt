@@ -1,0 +1,37 @@
+# robots.txt для Анти-ИИ Зарядка для глаз
+
+User-agent: *
+Allow: /
+
+# Разрешить индексацию всех страниц
+Disallow: 
+
+# Указать путь к sitemap
+Sitemap: https://ВАШ-USERNAME.github.io/anti-ai-eyes-gym/sitemap.xml
+
+# Googlebot (специальные настройки)
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Яндекс (дополнительно)
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Для мобильных устройств
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Запретить индексацию пустых или тестовых страниц (если есть)
+Disallow: /test/
+Disallow: /temp/
+Disallow: /backup/
