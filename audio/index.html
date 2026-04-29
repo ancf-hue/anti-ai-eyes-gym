@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#050505">
+  <title>👁️ Анти ИИ Зарядка для глаз</title>
+  <style>
+    :root { --g: #00FF6A; --bg: #050505; --ui: #0A0A0A; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; padding: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100dvh; overflow: hidden; touch-action: none; user-select: none; }
+    #app {
+      position: relative; width: 100%; max-width: 400px; aspect-ratio: 9/16; max-height: 96vh;
+      background: var(--bg); display: flex; flex-direction: column; overflow: hidden;
+      border-radius: 18px; box-shadow: 0 0 40px rgba(0,255,106,0.04);
+    }
+    #stage { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
+    canvas { position: absolute; top:0; left:0; width:100%; height:100%; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+    canvas.show { opacity: 1; pointer-events: auto; }
+    
+    #eyes { display: none; flex-direction: row; gap: 14px; transition: opacity 0.4s; }
+    #eyes.show { display: flex; }
+    .eye { position: relative; width: 18vmin; max-width: 90px; aspect-ratio: 2/1; background: #E8F0EE; border-radius: 50%; overflow: hidden; box-shadow: 0 0 14px rgba(0,255,106,0.15); }
+    .iris { width: 46%; height: 46%; background: radial-gradient(circle at 32% 32%, #00C9A7, #008866); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: transform 0.4s cubic-bezier(0.3,0,0.2,1); }
+    .pupil { width: 36%; height: 36%; background: #000; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: transform 0.3s ease; }
+    .lid { position: absolute; top:0; left:0; right:0; bottom:0; background: var(--bg); transform-origin: top; transform: scaleY(0); transition: transform 0.08s; pointer-events: none; }
+    .eye.blink .lid { transform: scaleY(1); }
+
+    #text-box {
+      position: absolute; bottom: 14vh; left: 0; right: 0; text-align: center;
+      color: var(--g); font-size: 0.9rem; font-weight: 500; line-height: 1.4;
+      opacity: 0; transition: opacity 0.3s; padding: 0 24px; pointer-events: none; z-index: 5;
+      text-shadow: 0 0 8px rgba(0,255,106,0.3);
+      background: rgba(0,0,0,0.8);
+      border-radius: 40px;
+      width: fit-content;
+      margin: 0 auto;
+      bottom: 10vh;
+    }
+    #text-box.show { opacity: 1; }
+
+    #controls { background: var(--ui); border-top: 1px solid #1A1A1A; padding: 18px 16px 24px; display: flex; flex-direction: column; gap: 12px; }
+    .row { display: flex; gap: 12px; }
+    .btn { flex: 1; background: #111; color: var(--g); border: 1px solid rgba(0,255,106,0.3); border-radius: 12px; padding: 13px 0; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.05s; }
+    .btn:active { transform: scale(0.97); background: #1A1A1A; }
+    .btn.primary { background: var(--g); color: #000; border: none; font-weight: 600; }
+    .timer { font-size: 1.5rem; font-weight: 700; color: var(--g); text-align: center; font-variant-numeric: tabular-nums; margin-top: 6px; letter-spacing: 2px; }
+    .meta { font-size: 0.65rem; color: #555; text-align: center; line-height: 1.3; }
+    .phase-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .phase-dot { width: 40px; font-size: 0.65rem; text-align: center; background: #222; border-radius: 20px; padding: 5px 0; transition: all 0.2s; color: #555; }
+    .phase-dot.active { background: var(--g); color: #000; font-weight: bold; box-shadow: 0 0 8px var(--g); }
+    .phase-dot.completed { background: #00AA55; color: #fff; }
+    
+    .lesson-title { position: absolute; top: 10px; left: 0; right: 0; text-align: center; font-size: 0.7rem; color: #00AA55; z-index: 10; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 20px; width: fit-content; margin: 0 auto; pointer-events: none; }
+    .sound-toggle { position: absolute; top: 10px; right: 10px; z-index: 20; background: rgba(0,0,0,0.6); border-radius: 30px; padding: 5px 10px; font-size: 0.7rem; cursor: pointer; color: var(--g); border: 1px solid var(--g); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="stage">
+      <div class="sound-toggle" id="soundToggle">🔊 Звук вкл</div>
+      <div class="lesson-title" id="lessonTitle">Урок 1/5</div>
+      <canvas id="c"></canvas>
+      <div id="eyes">
+        <div class="eye" id="eyeL"><div class="iris"><div class="pupil"></div></div><div class="lid"></div></div>
+        <div class="eye" id="eyeR"><div class="iris"><div class="pupil"></div></div><div class="lid"></div></div>
+      </div>
+      <div id="text-box">Нажмите Старт</div>
+    </div>
+    <div id="controls">
+      <div class="phase-indicator" id="phaseDots"></div>
+      <div class="row">
+        <button class="btn" id="btnReset">↺ Сброс</button>
+        <button class="btn primary" id="btnPlay">▶ Старт</button>
+      </div>
+      <div class="timer" id="timer">~20 мин</div>
+      <div class="meta">5 уроков • Аудио-озвучка • Польза для глаз</div>
+    </div>
+  </div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  const eyesEl = document.getElementById('eyes');
+  const eyeL = document.getElementById('eyeL');
+  const eyeR = document.getElementById('eyeR');
+  const textBox = document.getElementById('text-box');
+  const timerEl = document.getElementById('timer');
+  const lessonTitle = document.getElementById('lessonTitle');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnReset = document.getElementById('btnReset');
+  const app = document.getElementById('app');
+  const phaseDots = document.getElementById('phaseDots');
+  const soundToggle = document.getElementById('soundToggle');
+
+  // ========== ГЛОБАЛЬНОЕ СОСТОЯНИЕ ==========
+  let running = false, isPaused = false;
+  let startTime = 0, currentLesson = -1, currentExerciseIndex = 0;
+  let timeouts = [], intervals = [];
+  let blinkInt = null, lookT = null, geomInterval = null;
+  let ballP = { fx: 1.2, fy: 1.6, off: 0 };
+  let palmingInterval = null, animId = null;
+  let soundEnabled = true;
+  let currentAudio = null, isPlayingAudio = false;
+  let currentExerciseStartTime = 0, timeLeft = 0;
+  let totalLessonsCompleted = 0;
+
+  // ========== АУДИО-СИСТЕМА: ОЧЕРЕДЬ С ПРОВЕРКОЙ ДЛИТЕЛЬНОСТИ ==========
+  async function playSmart(file, maxTime = null) {
+    return new Promise((resolve) => {
+      if (!soundEnabled) { resolve(); return; }
+      if (isPlayingAudio) { console.log(`⏸️ Ожидание: "${file}"`); resolve(); return; }
+
+      const audio = new Audio(`audio/${file}`);
+      audio.preload = 'metadata';
+
+      const timeout = setTimeout(() => {
+        console.log(`⏱️ Таймаут метаданных: "${file}"`);
+        resolve();
+      }, 3000);
+
+      audio.onloadedmetadata = () => {
+        clearTimeout(timeout);
+        const duration = audio.duration;
+        console.log(`📊 "${file}": duration=${duration?.toFixed(1)}с, maxTime=${maxTime}`);
+
+        // 🔹 ГЛАВНОЕ ПРАВИЛО: если файл не влезает в отведённое время — пропускаем
+        if (maxTime !== null && duration > maxTime) {
+          console.log(`⏭️ Пропуск "${file}": ${duration.toFixed(1)}с > лимит ${maxTime}с`);
+          resolve();
+          return;
+        }
+
+        // 🔹 Запускаем воспроизведение
+        isPlayingAudio = true;
+        currentAudio = audio;
+        audio.volume = 1;
+
+        audio.onended = () => {
+          isPlayingAudio = false;
+          currentAudio = null;
+          resolve();
+        };
+
+        audio.onerror = () => {
+          console.warn(`❌ Ошибка: audio/${file}`);
+          isPlayingAudio = false;
+          currentAudio = null;
+          resolve();
+        };
+
+        audio.play().catch(e => {
+          console.warn('🔇 Заблокировано:', e);
+          isPlayingAudio = false;
+          currentAudio = null;
+          resolve();
+        });
+      };
+
+      audio.onerror = () => {
+        clearTimeout(timeout);
+        console.warn(`❌ Не найден: audio/${file}`);
+        resolve();
+      };
+    });
+  }
+
+  function stopAllAudio() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+    isPlayingAudio = false;
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+  }
+
+  function toggleSound() {
+    soundEnabled = !soundEnabled;
+    soundToggle.textContent = soundEnabled ? "🔊 Звук вкл" : "🔇 Звук выкл";
+    if (!soundEnabled) stopAllAudio();
+    else showText('🔊 Звук включён', 2000);
+  }
+  soundToggle.onclick = toggleSound;
+
+  function unlockAudio() {
+    if (!soundEnabled) return;
+    const silent = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA');
+    silent.volume = 0;
+    silent.play().then(() => silent.pause()).catch(() => {});
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+  }
+  document.addEventListener('click', unlockAudio, { once: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+
+  // ========== СТРУКТУРА УРОКОВ ==========
+  const LESSONS = [
+    { name: '🌊 Урок 1: Расслабление', intro: '01_lesson1_intro.mp3', outro: '01_lesson_outro.mp3',
+      exercises: [
+        { name: 'Шторки', type: 'blink', duration: 30, start: '01_1_blink_start.mp3', proc: '01_1_blink_process.mp3', end: '01_1_blink_end.mp3' },
+        { name: 'Точка', type: 'ball', duration: 30, start: '01_2_ball_start.mp3', proc: '01_2_ball_process.mp3', end: '01_2_ball_end.mp3' },
+        { name: 'Пауза', type: 'rest', duration: 15, start: '01_3_rest_start.mp3', proc: '01_3_rest_process.mp3', end: '01_3_rest_end.mp3' }
+      ]},
+    { name: '🎨 Урок 2: Координация', intro: '02_lesson2_intro.mp3', outro: '02_lesson_outro.mp3',
+      exercises: [
+        { name: 'Геометрия', type: 'geometry', duration: 35, start: '02_1_geometry_start.mp3', proc: '02_1_geometry_process.mp3', end: '02_1_geometry_end.mp3' },
+        { name: 'Точка', type: 'ball', duration: 30, start: '02_2_ball_start.mp3', proc: '02_2_ball_process.mp3', end: '02_2_ball_end.mp3' },
+        { name: 'Пауза', type: 'rest', duration: 15, start: '02_3_rest_start.mp3', proc: '02_3_rest_process.mp3', end: '02_3_rest_end.mp3' }
+      ]},
+    { name: '💪 Урок 3: Укрепление', intro: '03_lesson3_intro.mp3', outro: '03_lesson_outro.mp3',
+      exercises: [
+        { name: 'Жмурки', type: 'squeeze', duration: 30, start: '03_1_squeeze_start.mp3', proc: '03_1_squeeze_process.mp3', end: '03_1_squeeze_end.mp3' },
+        { name: 'Точка', type: 'ball', duration: 30, start: '03_2_ball_start.mp3', proc: '03_2_ball_process.mp3', end: '03_2_ball_end.mp3' },
+        { name: 'Пауза', type: 'rest', duration: 15, start: '03_3_rest_start.mp3', proc: '03_3_rest_process.mp3', end: '03_3_rest_end.mp3' }
+      ]},
+    { name: '🧘 Урок 4: Глубокий отдых', intro: '04_lesson4_intro.mp3', outro: '04_lesson_outro.mp3',
+      exercises: [
+        { name: 'Пальминг', type: 'palming', duration: 35, start: '04_1_palming_start.mp3', proc: '04_1_palming_process.mp3', end: '04_1_palming_end.mp3' },
+        { name: 'Шторки', type: 'blink', duration: 25, start: '04_2_blink_start.mp3', proc: '04_2_blink_process.mp3', end: '04_2_blink_end.mp3' },
+        { name: 'Пауза', type: 'rest', duration: 10, start: '04_3_rest_start.mp3', proc: '04_3_rest_process.mp3', end: '04_3_rest_end.mp3' }
+      ]},
+    { name: '⭐ Урок 5: Финальный', intro: '05_lesson5_intro.mp3', outro: '05_lesson_outro.mp3',
+      exercises: [
+        { name: 'Точка', type: 'ball', duration: 35, start: '05_1_ball_start.mp3', proc: '05_1_ball_process.mp3', end: '05_1_ball_end.mp3' },
+        { name: 'Геометрия', type: 'geometry', duration: 30, start: '05_2_geometry_start.mp3', proc: '05_2_geometry_process.mp3', end: '05_2_geometry_end.mp3' }
+      ]}
+  ];
+
+  // ========== ИНТЕРФЕЙС ==========
+  function buildPhaseDots() {
+    phaseDots.innerHTML = '';
+    LESSONS.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'phase-dot'; dot.id = `lessonDot${i}`; dot.textContent = `${i+1}`;
+      phaseDots.appendChild(dot);
+    });
+  }
+  buildPhaseDots();
+
+  function updateLessonDots(lesson, completed) {
+    for (let i = 0; i < LESSONS.length; i++) {
+      const dot = document.getElementById(`lessonDot${i}`);
+      if (!dot) continue;
+      if (i < completed) dot.className = 'phase-dot completed';
+      else if (i === lesson) dot.className = 'phase-dot active';
+      else dot.className = 'phase-dot';
+    }
+    if (lesson >= 0 && lesson < LESSONS.length) lessonTitle.textContent = `${LESSONS[lesson].name} (${lesson+1}/5)`;
+  }
+
+  function showText(txt, duration = 3000) {
+    textBox.textContent = txt; textBox.classList.add('show');
+    const tid = setTimeout(() => textBox.classList.remove('show'), duration);
+    timeouts.push(tid);
+  }
+
+  function clearAll() {
+    stopAllAudio();
+    timeouts.forEach(clearTimeout); timeouts = [];
+    intervals.forEach(clearInterval); intervals = [];
+    if (blinkInt) { clearInterval(blinkInt); blinkInt = null; }
+    if (lookT) { clearTimeout(lookT); lookT = null; }
+    if (geomInterval) { clearTimeout(geomInterval); geomInterval = null; }
+    if (palmingInterval) { clearInterval(palmingInterval); palmingInterval = null; }
+  }
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = app.clientWidth * dpr; canvas.height = app.clientHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize); resize();
+
+  // ========== УПРАЖНЕНИЯ ==========
+  function setupBlink() {
+    eyesEl.classList.add('show'); canvas.classList.remove('show');
+    blinkInt = setInterval(() => {
+      if(!running || isPaused) return;
+      eyeL.classList.add('blink'); eyeR.classList.add('blink');
+      setTimeout(() => { eyeL.classList.remove('blink'); eyeR.classList.remove('blink'); }, 150);
+    }, 1500);
+    intervals.push(blinkInt);
+    
+    function look() {
+      if(!running || isPaused) return;
+      const dirs = [[-12,0],[12,0],[0,-10],[0,10],[-8,-8],[8,-8],[-6,6],[6,6],[0,0]];
+      const [x,y] = dirs[Math.floor(Math.random()*dirs.length)];
+      const irisStyle = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+      const irisL = eyeL.querySelector('.iris');
+      const irisR = eyeR.querySelector('.iris');
+      if (irisL) irisL.style.transform = irisStyle;
+      if (irisR) irisR.style.transform = irisStyle;
+      lookT = setTimeout(look, 2000 + Math.random()*1000);
+      if (lookT) timeouts.push(lookT);
+    }
+    look();
+  }
+
+  function setupBall() {
+    eyesEl.classList.remove('show'); canvas.classList.add('show');
+    ballP = { fx: 1.0 + Math.random() * 2.5, fy: 1.0 + Math.random() * 2.5, off: Math.random() * Math.PI * 2 };
+  }
+
+  function setupGeometry() {
+    eyesEl.classList.add('show'); canvas.classList.remove('show');
+    let shapes = ['круг', 'квадрат', 'восьмёрку'], shapeIndex = 0, points = [], currentPoint = 0;
+    
+    function getCirclePoints(r, s) { let p=[]; for(let i=0;i<=s;i++) p.push({x:Math.cos((i/s)*Math.PI*2)*r, y:Math.sin((i/s)*Math.PI*2)*r}); return p; }
+    function getSquarePoints(s, st) { let p=[],k=Math.floor(st/4); for(let i=0;i<=k;i++)p.push({x:-s+(i/k)*s*2,y:-s}); for(let i=0;i<=k;i++)p.push({x:s,y:-s+(i/k)*s*2}); for(let i=0;i<=k;i++)p.push({x:s-(i/k)*s*2,y:s}); for(let i=0;i<=k;i++)p.push({x:-s,y:s-(i/k)*s*2}); return p; }
+    function getEightPoints(r, s) { let p=[]; for(let i=0;i<=s;i++){let t=(i/s)*Math.PI*2;p.push({x:Math.sin(t)*r,y:Math.sin(2*t)*r*0.6});} return p; }
+    
+    function update() {
+      if(!running || isPaused) return;
+      if(currentPoint >= points.length) {
+        shapeIndex = (shapeIndex + 1) % shapes.length; currentPoint = 0;
+        if(shapes[shapeIndex]==='круг') points = getCirclePoints(60, 36);
+        else if(shapes[shapeIndex]==='квадрат') points = getSquarePoints(60, 40);
+        else points = getEightPoints(60, 48);
+      }
+      if(points.length > 0 && currentPoint < points.length) {
+        const p = points[currentPoint];
+        const irisStyle = `translate(calc(-50% + ${p.x/2}px), calc(-50% + ${p.y/2}px))`;
+        const irisL = eyeL.querySelector('.iris');
+        const irisR = eyeR.querySelector('.iris');
+        if (irisL) irisL.style.transform = irisStyle;
+        if (irisR) irisR.style.transform = irisStyle;
+        currentPoint++;
+      }
+      geomInterval = setTimeout(update, 80);
+      if(geomInterval) timeouts.push(geomInterval);
+    }
+    points = getCirclePoints(60, 36); update();
+  }
+
+  function setupSqueeze() {
+    eyesEl.classList.add('show'); canvas.classList.remove('show');
+    let count = 0, active = false;
+    function doSqueeze() {
+      if(!running || isPaused || count >= 5) { if(palmingInterval) clearInterval(palmingInterval); return; }
+      if(!active) { eyeL.classList.add('blink'); eyeR.classList.add('blink'); active = true; } 
+      else { eyeL.classList.remove('blink'); eyeR.classList.remove('blink'); active = false; count++; }
+    }
+    doSqueeze();
+    palmingInterval = setInterval(doSqueeze, 5000);
+    intervals.push(palmingInterval);
+  }
+
+  function setupPalming() {
+    eyesEl.classList.add('show'); canvas.classList.remove('show');
+    const overlay = document.createElement('div');
+    Object.assign(overlay.style, {position:'absolute',top:'0',left:'0',width:'100%',height:'100%',background:'#000',zIndex:'100',opacity:'0',transition:'opacity 0.5s',pointerEvents:'none'});
+    document.getElementById('stage').appendChild(overlay);
+    setTimeout(() => overlay.style.opacity = '0.95', 100);
+    setTimeout(() => overlay.remove(), timeLeft * 1000 - 500);
+    timeouts.push(setTimeout(()=>{}, timeLeft * 1000));
+  }
+
+  function setupRest() {
+    eyesEl.classList.add('show'); canvas.classList.remove('show');
+  }
+
+  function drawBall(elapsed) {
+    const w = canvas.width / (window.devicePixelRatio || 1);
+    const h = canvas.height / (window.devicePixelRatio || 1);
+    ctx.fillStyle = 'rgba(0,0,0,0.15)'; ctx.fillRect(0, 0, w, h);
+    const t = elapsed * 0.5;
+    let x = Math.sin(t * ballP.fx + ballP.off) * w * 0.38;
+    let y = Math.cos(t * ballP.fy + ballP.off) * h * 0.38;
+    const cx = w/2 + x, cy = h/2 + y;
+    ctx.shadowBlur = 28; ctx.shadowColor = '#00FF6A'; ctx.fillStyle = '#00FF6A';
+    ctx.beginPath(); ctx.arc(cx, cy, 19, 0, Math.PI*2); ctx.fill();
+    ctx.shadowBlur = 10; ctx.fillStyle = '#88FFAA';
+    ctx.beginPath(); ctx.arc(cx, cy, 12, 0, Math.PI*2); ctx.fill();
+    ctx.shadowBlur = 0; ctx.fillStyle = '#000';
+    ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#FFF'; ctx.beginPath(); ctx.arc(cx-5, cy-5, 2.5, 0, Math.PI*2); ctx.fill();
+  }
+
+  // ========== ТАЙМЕР УПРАЖНЕНИЯ ==========
+  async function runExerciseTimer(exercise) {
+    return new Promise((resolve) => {
+      timeLeft = exercise.duration;
+      const interval = setInterval(() => {
+        if (!running) { clearInterval(interval); resolve(); return; }
+        if (isPaused) return;
+
+        timeLeft--;
+        updateTimerDisplay();
+
+        // 🔹 Запуск process-аудио: только если тишина и есть запас времени
+        if (!isPlayingAudio && timeLeft > 5 && exercise.proc) {
+          playSmart(exercise.proc, timeLeft);
+        }
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 1000);
+      intervals.push(interval);
+    });
+  }
+
+  function updateTimerDisplay() {
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    timerEl.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+  }
+
+  // ========== ЗАПУСК ОДНОГО УПРАЖНЕНИЯ ==========
+  async function runExercise(exercise) {
+    showText(`🎯 ${exercise.name}`, 3000);
+    currentExerciseStartTime = Date.now();
+
+    // 🔹 1. Старт упражнения
+    if (exercise.start) await playSmart(exercise.start, exercise.duration);
+
+    // 🔹 2. Визуальная часть + таймер
+    if (exercise.type === 'blink') setupBlink();
+    else if (exercise.type === 'ball') setupBall();
+    else if (exercise.type === 'geometry') setupGeometry();
+    else if (exercise.type === 'squeeze') setupSqueeze();
+    else if (exercise.type === 'palming') setupPalming();
+    else if (exercise.type === 'rest') setupRest();
+
+    await runExerciseTimer(exercise);
+
+    // 🔹 3. Завершение упражнения (если успевает)
+    if (exercise.end) await playSmart(exercise.end, 999);
+
+    clearAll();
+  }
+
+  // ========== ЗАПУСК УРОКА ==========
+  async function runLesson() {
+    const lesson = LESSONS[currentLesson];
+    if (!lesson) { await playSmart('complete_all.mp3'); finish(); return; }
+
+    // 🔹 Интро урока
+    if (lesson.intro) await playSmart(lesson.intro, null);
+
+    // 🔹 Цикл упражнений
+    for (let i = currentExerciseIndex; i < lesson.exercises.length; i++) {
+      currentExerciseIndex = i;
+      await runExercise(lesson.exercises[i]);
+    }
+
+    // 🔹 Аутро урока
+    if (lesson.outro) await playSmart(lesson.outro, null);
+
+    totalLessonsCompleted = currentLesson + 1;
+    updateLessonDots(-1, totalLessonsCompleted);
+    currentLesson++;
+    currentExerciseIndex = 0;
+
+    if (currentLesson < LESSONS.length) {
+      setTimeout(runLesson, 4000);
+    } else {
+      finish();
+    }
+  }
+
+  // ========== УПРАВЛЕНИЕ ==========
+  async function start() {
+    if (running) return;
+    textBox.classList.remove('show');
+    running = true; isPaused = false;
+    startTime = Date.now();
+
+    if (currentLesson === -1) {
+      await playSmart('00_welcome.mp3', null);
+      currentLesson = 0; currentExerciseIndex = 0; totalLessonsCompleted = 0;
+      updateLessonDots(0, 0);
+      setTimeout(runLesson, 3000);
+    } else {
+      runLesson();
+    }
+
+    btnPlay.textContent = '⏸ Пауза'; btnPlay.classList.remove('primary');
+    loop();
+  }
+
+  function pause() {
+    if (!running) return;
+    isPaused = !isPaused;
+    if (isPaused) {
+      if (currentAudio) currentAudio.pause();
+      btnPlay.textContent = '▶ Старт'; btnPlay.classList.add('primary');
+      showText('⏸ Пауза', 2000);
+    } else {
+      if (currentAudio) currentAudio.play().catch(() => {});
+      btnPlay.textContent = '⏸ Пауза'; btnPlay.classList.remove('primary');
+    }
+  }
+
+  function finish() {
+    running = false; isPaused = false;
+    stopAllAudio(); clearAll();
+    if (animId) cancelAnimationFrame(animId);
+    timerEl.textContent = '✓ Готово!';
+    eyesEl.classList.remove('show'); canvas.classList.remove('show');
+    btnPlay.textContent = '▶ Старт'; btnPlay.classList.add('primary');
+    showText('🎉 Все уроки пройдены! Отличная работа!', 6000);
+  }
+
+  function reset() {
+    running = false; isPaused = false;
+    stopAllAudio();
+    currentLesson = -1; currentExerciseIndex = 0; totalLessonsCompleted = 0;
+    clearAll();
+    if (animId) cancelAnimationFrame(animId);
+    eyesEl.classList.remove('show'); canvas.classList.remove('show');
+    timerEl.textContent = '~20 мин'; updateLessonDots(-1, 0);
+    const w = canvas.width / (window.devicePixelRatio || 1);
+    const h = canvas.height / (window.devicePixelRatio || 1);
+    if (ctx) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h); }
+    btnPlay.textContent = '▶ Старт'; btnPlay.classList.add('primary');
+    showText('Нажмите Старт для начала 5 уроков', 2000);
+  }
+
+  function loop() {
+    if (!running || isPaused) { animId = requestAnimationFrame(loop); return; }
+    if (currentLesson >= 0 && currentLesson < LESSONS.length) {
+      const ex = LESSONS[currentLesson].exercises[currentExerciseIndex];
+      if (ex && ex.type === 'ball') {
+        const elapsed = (Date.now() - startTime) / 1000;
+        drawBall(elapsed);
+      } else if (ex && ex.type !== 'ball') {
+        const w = canvas.width / (window.devicePixelRatio || 1);
+        const h = canvas.height / (window.devicePixelRatio || 1);
+        ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
+      }
+    }
+    animId = requestAnimationFrame(loop);
+  }
+
+  btnPlay.onclick = () => isPaused ? pause() : (running ? pause() : start());
+  btnReset.onclick = reset;
+
+  textBox.classList.add('show');
+  updateLessonDots(-1, 0);
+  timerEl.textContent = '~20 мин';
+})();
+</script>
+</body>
+</html>
