@@ -1,37 +1,158 @@
 # robots.txt для Анти-ИИ Зарядка для глаз
+# Сайт: https://anti-ai-eyes-gym.vercel.app
+# Описание: Бесплатный офлайн-тренажёр для здоровья глаз
+
+# ============================================
+# ОСНОВНЫЕ НАСТРОЙКИ ДЛЯ ВСЕХ ПОИСКОВЫХ РОБОТОВ
+# ============================================
 
 User-agent: *
 Allow: /
 
-# Разрешить индексацию всех страниц
-Disallow: 
+# Запрещаем индексацию служебных и системных папок
+Disallow: /audio/          # Аудиофайлы (чтобы не засорять выдачу)
+Disallow: /temp/           # Временные файлы (если появятся)
+Disallow: /backup/         # Бэкапы (если появятся)
+Disallow: /test/           # Тестовые страницы (если появятся)
+Disallow: /node_modules/   # Модули Node.js (если есть)
+Disallow: /.git/           # Git-файлы
+Disallow: /vercel/         # Служебные файлы Vercel
 
-# Указать путь к sitemap
-Sitemap: https://ВАШ-USERNAME.github.io/anti-ai-eyes-gym/sitemap.xml
+# ============================================
+# GOOGLE ROBOT (специальные настройки)
+# ============================================
 
-# Googlebot (специальные настройки)
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
-
-# Яндекс (дополнительно)
-User-agent: Yandex
-Allow: /
-Crawl-delay: 2
-
-# Bing
-User-agent: Bingbot
-Allow: /
-
-# DuckDuckGo
-User-agent: DuckDuckBot
-Allow: /
+Disallow: /audio/
+Disallow: /temp/
+Crawl-delay: 1              # Задержка между запросами (секунды)
 
 # Для мобильных устройств
 User-agent: Googlebot-Mobile
 Allow: /
+Disallow: /audio/
 
-# Запретить индексацию пустых или тестовых страниц (если есть)
-Disallow: /test/
+# Для изображений (Google Image)
+User-agent: Googlebot-Image
+Allow: /favicon.ico
+Allow: /frame.jpg
+Allow: /*.jpg
+Allow: /*.png
+Disallow: /audio/
+
+# Для видео (Google Video)
+User-agent: Googlebot-Video
+Allow: /cube.mp4
+Disallow: /audio/
+
+# ============================================
+# YANDEX (Яндекс) - для российского поиска
+# ============================================
+
+User-agent: Yandex
+Allow: /
+Disallow: /audio/
 Disallow: /temp/
-Disallow: /backup/
+Crawl-delay: 2              # Яндекс рекомендует задержку 2 секунды
+
+# Яндекс для изображений
+User-agent: YandexImages
+Allow: /favicon.ico
+Allow: /frame.jpg
+Allow: /*.jpg
+Allow: /*.png
+Disallow: /audio/
+
+# ============================================
+# ДРУГИЕ ПОИСКОВЫЕ СИСТЕМЫ
+# ============================================
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /audio/
+Crawl-delay: 1
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /audio/
+Crawl-delay: 1
+
+# Baidu (китайский поиск)
+User-agent: Baiduspider
+Allow: /
+Disallow: /audio/
+Crawl-delay: 2
+
+# Yahoo
+User-agent: Yahoo! Slurp
+Allow: /
+Disallow: /audio/
+Crawl-delay: 1
+
+# ============================================
+# ДРУГИЕ РОБОТЫ (по желанию)
+# ============================================
+
+# Apple (Siri)
+User-agent: Applebot
+Allow: /
+Disallow: /audio/
+
+# Facebook (для Open Graph)
+User-agent: facebookexternalhit
+Allow: /
+Disallow: /audio/
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+Disallow: /audio/
+
+# Telegram
+User-agent: TelegramBot
+Allow: /
+Disallow: /audio/
+
+# ============================================
+# БОТЫ, КОТОРЫЕ ЛУЧШЕ ЗАПРЕТИТЬ (нежелательные)
+# ============================================
+
+# Некоторые агрессивные парсеры
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: YandexBot
+Allow: /                     # Yandex разрешён, но выше уже есть специальная секция
+Crawl-delay: 2
+
+# ============================================
+# УКАЗАНИЕ ПУТИ К KAPTE CAЙTA (SITEMAP)
+# ============================================
+
+# Основная карта сайта (обязательно для Google)
+Sitemap: https://anti-ai-eyes-gym.vercel.app/sitemap.xml
+
+# Дополнительная карта сайта (если будет несколько)
+# Sitemap: https://anti-ai-eyes-gym.vercel.app/sitemap-1.xml
+
+# ============================================
+# ПРИМЕЧАНИЯ ПО ХОСТИНГУ (VERCEL)
+# ============================================
+
+# Хост для ускорения индексации
+Host: https://anti-ai-eyes-gym.vercel.app
+
+# Время последнего обновления (меняйте при каждом обновлении)
+# Last-updated: 2026-04-29
